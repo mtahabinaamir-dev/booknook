@@ -1,0 +1,4 @@
+# Never push a real database file: it holds user accounts and order data,
+# and the live demo rebuilds its own fresh database from schema.sqlite.sql
+*.sqlite
+booknook-data/

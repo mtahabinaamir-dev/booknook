@@ -1,0 +1,7 @@
+# Never serve the database, schemas, docs or config directly over the web
+<FilesMatch "\.(sqlite|sql|md)$">
+    Require all denied
+</FilesMatch>
+<Files "config.php">
+    Require all denied
+</Files>

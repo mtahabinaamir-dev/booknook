@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookNook — Find your next book</title>
+<style>
+/* BookNook — single stylesheet, palette via custom properties */
+:root{
+  --paper:#FAF6EF; --surface:#FFFFFF; --surface-2:#F3ECDF;
+  --ink:#2B2118; --muted:#6B5C4D;
+  --accent:#B4502A; --accent-dark:#93401F;
+  --border:#E2D7C3;
+  --success-bg:#E9F3E6; --success:#2F6B2F;
+  --error-bg:#F9E9E6; --error:#A93226;
+  --serif:Georgia,"Times New Roman",Times,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1rem;line-height:1.55}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+h1{font-family:var(--serif);font-size:2rem;line-height:1.2;margin:0 0 8px}
+h2{font-family:var(--serif);font-size:1.375rem;margin:28px 0 14px}
+.container{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* Header */
+.site-header{background:var(--surface);border-bottom:1px solid var(--border)}
+.header-in{display:flex;align-items:center;gap:20px;padding:14px 0;flex-wrap:wrap}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:bold;color:var(--ink)}
+.logo span{color:var(--accent)}
+.logo:hover{text-decoration:none}
+.search{flex:1;display:flex;gap:8px;min-width:200px}
+.search input{flex:1}
+.main-nav{display:flex;gap:18px;font-size:.9375rem}
+.main-nav a{color:var(--ink)}
+
+/* Forms and buttons */
+input,select,textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0}
+.btn{display:inline-block;padding:9px 18px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}
+.btn:hover{background:var(--accent-dark);border-color:var(--accent-dark);text-decoration:none}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--border)}
+.btn-ghost:hover{background:var(--surface-2);border-color:var(--border)}
+.btn:disabled{background:var(--border);border-color:var(--border);color:var(--muted);cursor:not-allowed}
+
+/* Hero */
+.hero{background:var(--surface-2);border-bottom:1px solid var(--border);padding:36px 0}
+.hero p{color:var(--muted);margin:0;max-width:560px}
+
+/* Book grid and cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;padding-bottom:40px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.cover{aspect-ratio:3/4;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:3.5rem;color:#FAF3E3;margin-bottom:8px}
+.c1{background:#B4502A}.c2{background:#46604C}.c3{background:#37455C}
+.c4{background:#64404E}.c5{background:#8C5A2E}.c6{background:#586A72}
+.card h3{font-family:var(--serif);font-size:1.0625rem;margin:0;line-height:1.3}
+.card h3 a{color:var(--ink)}
+.author{color:var(--muted);font-size:.875rem;margin:0}
+.card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:8px}
+.price{font-size:1.125rem;font-weight:bold}
+
+/* Badges and alerts */
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.8125rem;background:var(--success-bg);color:var(--success)}
+.badge-low{background:var(--surface-2);color:var(--accent-dark)}
+.badge-out{background:var(--error-bg);color:var(--error)}
+.alert{padding:12px 16px;border-radius:8px;margin:16px 0}
+.alert-success{background:var(--success-bg);color:var(--success)}
+.alert-error{background:var(--error-bg);color:var(--error)}
+.empty{text-align:center;color:var(--muted);padding:48px 20px}
+
+/* Footer */
+.site-footer{background:var(--surface-2);border-top:1px solid var(--border);padding:20px 0;margin-top:12px}
+.footer-in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.875rem}
+
+/* Phones: one column, stacked header */
+@media (max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .header-in{gap:10px}
+  .search{order:3;flex-basis:100%}
+  .main-nav{margin-left:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-in">
+    <a class="logo" href="#">Book<span>Nook</span>.</a>
+    <form class="search" action="#" method="get">
+      <input type="search" name="q" placeholder="Search by title or author" aria-label="Search books">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <nav class="main-nav">
+      <a href="#">Home</a>
+      <a href="#">Cart</a>
+      <a href="#">Login</a>
+      <a href="#">Register</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Find your next book.</h1>
+    <p>A small bookshop with honest prices and fast delivery. Browse the shelves, fill your cart, and pay cash when your books arrive.</p>
+  </div>
+</section>
+
+<main class="container">
+  <h2>Featured books</h2>
+  <div class="grid">
+
+    <article class="card">
+      <div class="cover c1" aria-hidden="true">T</div>
+      <h3><a href="#">The Alchemist</a></h3>
+      <p class="author">Paulo Coelho</p>
+      <span class="badge">In stock</span>
+      <div class="card-foot">
+        <span class="price">$8.99</span>
+        <button class="btn" type="button">Add</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="cover c2" aria-hidden="true">P</div>
+      <h3><a href="#">Pride and Prejudice</a></h3>
+      <p class="author">Jane Austen</p>
+      <span class="badge">In stock</span>
+      <div class="card-foot">
+        <span class="price">$6.99</span>
+        <button class="btn" type="button">Add</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="cover c3" aria-hidden="true">1</div>
+      <h3><a href="#">1984</a></h3>
+      <p class="author">George Orwell</p>
+      <span class="badge badge-low">Low stock</span>
+      <div class="card-foot">
+        <span class="price">$7.49</span>
+        <button class="btn" type="button">Add</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="cover c4" aria-hidden="true">T</div>
+      <h3><a href="#">To Kill a Mockingbird</a></h3>
+      <p class="author">Harper Lee</p>
+      <span class="badge">In stock</span>
+      <div class="card-foot">
+        <span class="price">$7.99</span>
+        <button class="btn" type="button">Add</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="cover c5" aria-hidden="true">G</div>
+      <h3><a href="#">The Great Gatsby</a></h3>
+      <p class="author">F. Scott Fitzgerald</p>
+      <span class="badge badge-out">Out of stock</span>
+      <div class="card-foot">
+        <span class="price">$5.99</span>
+        <button class="btn" type="button" disabled>Add</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="cover c6" aria-hidden="true">S</div>
+      <h3><a href="#">Sapiens: A Brief History of Humankind</a></h3>
+      <p class="author">Yuval Noah Harari</p>
+      <span class="badge">In stock</span>
+      <div class="card-foot">
+        <span class="price">$11.50</span>
+        <button class="btn" type="button">Add</button>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-in">
+    <span>BookNook — a small online bookstore.</span>
+    <span>Built with PHP &amp; MySQL</span>
+  </div>
+</footer>
+
+</body>
+</html>
